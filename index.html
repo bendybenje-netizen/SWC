@@ -2,14 +2,38 @@
 <html>
 <head>
   <title>The Small Willy Club</title>
-  <img src="frontimage.png" alt="Small Willy Club" style="max-width: 500px; margin-top: 20px;">
   <style>
     body { font-family: Arial; text-align: center; padding: 50px; }
     h1 { color: #333; }
+    input { padding: 10px; font-size: 16px; }
+    button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
-  <h1>The Small Willy Club</h1>
-  <p>Coming Soon</p>
+  <div id="password-page">
+    <h1>The Small Willy Club</h1>
+    <p>Enter password:</p>
+    <input type="password" id="password-input" placeholder="Password">
+    <button onclick="checkPassword()">Enter</button>
+  </div>
+
+  <div id="next-page" class="hidden">
+    <h1>Welcome to The Small Willy Club</h1>
+    <img src="frontimage.png" alt="Small Willy Club" style="max-width: 500px; margin-top: 20px;">
+    <p>You made it!</p>
+  </div>
+
+  <script>
+    function checkPassword() {
+      const password = document.getElementById("password-input").value;
+      if (password === "SWC") {
+        document.getElementById("password-page").classList.add("hidden");
+        document.getElementById("next-page").classList.remove("hidden");
+      } else {
+        alert("Wrong password!");
+      }
+    }
+  </script>
 </body>
 </html>
