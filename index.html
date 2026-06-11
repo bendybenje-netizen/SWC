@@ -119,7 +119,7 @@
   .caption{text-align:center;font-style:italic;color:#7a7264;font-size:15px;margin-bottom:36px;}
   .challenge-img{width:100%;border-radius:4px;border:1px solid rgba(0,0,0,.12);margin-bottom:8px;}
   .lobster-card{background:#fbf6e9;border:1px solid rgba(22,58,43,.18);border-left:4px solid var(--gold);border-radius:3px;padding:26px 24px;margin-top:30px;text-align:center;}
-  .lobster-card img{max-width:220px;width:100%;border-radius:3px;margin:0 auto 16px;display:block;}
+  .lobster-card img{max-width:420px;width:100%;border-radius:3px;margin:0 auto 16px;display:block;}
   .lobster-card h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:26px;margin-bottom:6px;}
 
   /* ---------- MEMBERS ---------- */
@@ -197,7 +197,8 @@
 <nav class="menu" id="menu">
   <a onclick="go('home')">Home</a>
   <a onclick="go('about')">About Us</a>
-  <a onclick="go('challenge')">The SWC Challenge</a>
+  <a onclick="go('challenge')">SWC Video</a>
+  <a onclick="go('lobster')">The SWC Lobster</a>
   <a onclick="go('events')">Events</a>
   <a onclick="go('members')">The Membership</a>
   <a class="leave" onclick="go('leave')">Leave the Club</a>
@@ -212,7 +213,8 @@
     <p class="est">Established MMIII · Tenterden, England</p>
     <div class="home-links">
       <button onclick="go('about')">About Us</button>
-      <button onclick="go('challenge')">The Challenge</button>
+      <button onclick="go('challenge')">SWC Video</button>
+      <button onclick="go('lobster')">The Lobster</button>
       <button onclick="go('events')">Events</button>
       <button onclick="go('members')">Members</button>
     </div>
@@ -225,7 +227,7 @@
     <p class="sec-label">Article I</p>
     <h2 class="sec-title">About the Club</h2>
     <div class="rule"></div>
-    <p>Founded in the summer of 2003, in Tenterden, on principles of dignity, discretion, and the quiet confidence that comes from having nothing left to prove, The Small Willy Club is the nation's most exclusive fellowship for gentlemen — and one extraordinary woman — who understand that greatness is not a matter of measurement.</p>
+    <p>The Small Willy Club is the nation's most exclusive fellowship for gentlemen — and one extraordinary woman — who understand that greatness is not a matter of measurement. Its precise date of establishment is a matter on which no consensus has ever been reached. The Club's foremost philosophers have, after long and sober deliberation, theorised that the summer of 2003, in Tenterden, represents its most likely inception — though the debate remains, in the finest tradition, gloriously unresolved.</p>
     <p>Membership is by invitation only. Entry is contingent upon the recommendation of two existing members, a successful interview, and a frankly admirable lack of insecurity. We meet monthly. We speak of important things. We do not discuss the things you think we discuss.</p>
     <p>Our motto, <em>Parva sed Potens</em>, has guided the Club since its founding in 2003. It reminds us of an eternal truth, recognised by philosophers, poets, and the more thoughtful sort of partner: that it is not the size of the thing, but the conviction with which it is carried.</p>
   </section>
@@ -234,8 +236,8 @@
 <!-- ===== CHALLENGE ===== -->
 <div class="page" id="challenge">
   <section class="body prose">
-    <p class="sec-label">The Reckoning</p>
-    <h2 class="sec-title">The SWC Challenge</h2>
+    <p class="sec-label">The Record</p>
+    <h2 class="sec-title">SWC Video</h2>
     <div class="rule"></div>
 
     <!-- ===== VIDEO: replace the placeholder div below with your YouTube embed ===== -->
@@ -243,20 +245,29 @@
       <!-- TO ADD YOUR VIDEO: delete this placeholder div and paste your YouTube <iframe> here -->
       <div class="video-placeholder">
         <span class="big">Footage Pending</span>
-        <span>The official record of the Challenge will be screened here.</span>
+        <span>The official Club video will be screened here.</span>
       </div>
     </div>
-    <p class="caption">The Challenge, as undertaken before witnesses and the Club's exacting standards.</p>
+    <p class="caption">As witnessed, and entered into the permanent record of the Club.</p>
 
-    <img src="challengeimage.png" alt="Evidence of the Challenge" class="challenge-img" onerror="this.style.display='none'">
+    <img src="challengeimage.png" alt="Club evidence" class="challenge-img" onerror="this.style.display='none'">
     <p class="caption">Documented evidence, submitted for the record.</p>
+  </section>
+</div>
 
-    <!-- ===== LOBSTER ===== -->
+<!-- ===== LOBSTER (OWN PAGE) ===== -->
+<div class="page" id="lobster">
+  <section class="body prose">
+    <p class="sec-label">The Mascot</p>
+    <h2 class="sec-title">The SWC Lobster</h2>
+    <div class="rule"></div>
     <div class="lobster-card">
-      <img src="lobster.png" alt="The Club's adopted lobster" onerror="this.style.display='none'">
+      <img src="lobster.png" alt="Certificate of adoption — SWC the Lobster" onerror="this.style.display='none'">
       <h3>SWC the Lobster</h3>
       <p class="role">Official Crustacean of The Small Willy Club</p>
-      <p>In a moment of profound institutional commitment, the Club formally adopted a lobster and named it, with characteristic modesty, SWC. It awaits release off the coast of Cornwall, where it will one day live a life of freedom and quiet dignity. Its certificate hangs with pride. Its whereabouts will, in time, be tracked. Its name is spoken only in hushed tones.</p>
+      <p>In a moment of profound institutional commitment, the Club formally adopted a lobster and named it, in its own honour, SWC. The certificate of adoption is displayed above with all appropriate ceremony.</p>
+      <p>SWC the Lobster remains, at present, in captivity — awaiting release into the open sea off the coast of Cornwall. Upon its release, the date shall be recorded here for posterity, and the membership shall observe a respectful moment of reflection.</p>
+      <p class="role" style="margin-top:18px;">Date of release: to be confirmed.</p>
     </div>
   </section>
 </div>
@@ -300,7 +311,7 @@
       <div class="member-body">
         <h3>Greg</h3>
         <p class="role">Founder &amp; President</p>
-        <p class="since">Founding Member — 2026</p>
+        <p class="since">Founding Member — 2003</p>
         <p class="quote">"Somebody had to start it. I simply happened to be the most qualified."</p>
         <p class="bio">The visionary behind the Club, Greg conceived of the institution during a moment of profound personal clarity. He chairs every meeting, owns the ceremonial gavel, and has never once been seen to flinch. A natural leader, modest to a fault, and the holder of the only key to the drinks cabinet.</p>
       </div>
@@ -311,7 +322,7 @@
       <div class="member-body">
         <h3>Laura</h3>
         <p class="role">Chairwoman &amp; Keeper of Standards</p>
-        <p class="since">Honorary Patron — 2026</p>
+        <p class="since">Founding Member — 2003</p>
         <p class="quote">"I don't qualify on a technicality. I'm here because somebody has to run it properly."</p>
         <p class="bio">The Club's only female member and, by universal agreement, the only reason any of it functions. Laura keeps the minutes, vetoes the worst ideas, and brings a much-needed air of competence to proceedings. The men are slightly afraid of her. This is correct.</p>
       </div>
@@ -322,7 +333,7 @@
       <div class="member-body">
         <h3>Barney</h3>
         <p class="role">Treasurer</p>
-        <p class="since">Member — 2026</p>
+        <p class="since">Founding Member — 2003</p>
         <p class="quote">"The books are balanced. Don't ask about the biscuit budget."</p>
         <p class="bio">Guardian of the Club's finances, which currently total the change found down the back of Greg's sofa. Barney takes the role with deadly seriousness, maintains a spreadsheet no one is permitted to view, and once expensed a commemorative tankard. Worth every penny.</p>
       </div>
@@ -333,7 +344,7 @@
       <div class="member-body">
         <h3>Caleb</h3>
         <p class="role">Head of Recruitment</p>
-        <p class="since">Member — 2026</p>
+        <p class="since">Founding Member — 2003</p>
         <p class="quote">"We're not for everyone. That's rather the point."</p>
         <p class="bio">Charged with maintaining the Club's exacting entry standards, Caleb has personally rejected dozens of hopefuls, several of whom never applied. Discreet, selective, and a firm believer that an institution is defined by who it keeps out. Conducts all interviews in a low, serious voice.</p>
       </div>
@@ -344,9 +355,20 @@
       <div class="member-body">
         <h3>Jonny</h3>
         <p class="role">Social Secretary</p>
-        <p class="since">Member — 2026</p>
+        <p class="since">Founding Member — 2003</p>
         <p class="quote">"Morale is high. Attendance is mandatory."</p>
         <p class="bio">Responsible for the Club's calendar of events, which so far consists of one very good evening everyone still talks about. Jonny organises the outings, books the venues, and remembers everybody's birthday. The emotional heart of the Club, and the only member who actually replies to the group chat.</p>
+      </div>
+    </div>
+
+    <div class="member">
+      <div class="badge">B</div>
+      <div class="member-body">
+        <h3>Ben</h3>
+        <p class="role">Founding Member</p>
+        <p class="since">Founding Member — 2003</p>
+        <p class="quote">"I was there at the beginning. I'll be there at the end. Which, it transpires, is never."</p>
+        <p class="bio">A founding pillar of the Club, and the man whose 40th the membership now gathers to celebrate. A fuller profile is to be ratified in due course, once a suitably flattering account can be agreed upon by committee.</p>
       </div>
     </div>
   </section>
@@ -359,63 +381,76 @@
     <div class="leave-step active" id="leave-1">
       <div class="leave-card">
         <h2>Leaving so soon?</h2>
-        <p>Are you sure you wish to resign your membership of The Small Willy Club?</p>
+        <p>Before we process your departure, the committee requires a name for the record. Who, exactly, wishes to leave?</p>
+        <input class="renounce-input" id="leaver-name" placeholder="Your full name" autocomplete="off">
         <div class="leave-btns">
-          <button class="btn btn-stay" onclick="go('home')">No — I'll stay</button>
-          <button class="btn btn-leave" onclick="leaveStep(2)">Yes, I wish to leave</button>
+          <button class="btn btn-stay" onclick="go('home')">Actually, I'll stay</button>
+          <button class="btn btn-leave" onclick="nameContinue()">Continue</button>
         </div>
+        <p id="name-err" style="color:var(--oxblood);font-style:italic;font-size:14px;min-height:18px;margin:10px 0 0;"></p>
       </div>
     </div>
 
     <div class="leave-step" id="leave-2">
       <div class="leave-card">
-        <h2>Are you <em>quite</em> sure?</h2>
-        <p>This is a serious decision and the committee takes it personally. Take a breath. Reconsider.</p>
+        <h2>Are you sure, <span class="leaver"></span>?</h2>
+        <p>Are you sure you wish to resign your membership of The Small Willy Club?</p>
         <div class="leave-btns">
-          <button class="btn btn-stay" onclick="go('home')">On reflection, I'll stay</button>
-          <button class="btn btn-leave" onclick="leaveStep(3)">I'm sure. Continue.</button>
+          <button class="btn btn-stay" onclick="go('home')">No — I'll stay</button>
+          <button class="btn btn-leave" onclick="leaveStep(3)">Yes, I wish to leave</button>
         </div>
       </div>
     </div>
 
     <div class="leave-step" id="leave-3">
       <div class="leave-card">
-        <h2>A small formality.</h2>
-        <p>To proceed, please confirm the following. Tick the box that applies to you.</p>
+        <h2>Are you <em>quite</em> sure?</h2>
+        <p>This is a serious decision and the committee takes it personally. Take a breath. Reconsider.</p>
         <div class="leave-btns">
-          <button class="btn btn-stay" onclick="go('home')">I love fun and the Club</button>
-          <button class="btn btn-leave" onclick="leaveStep(4)">I hate fun and wish to be alone</button>
+          <button class="btn btn-stay" onclick="go('home')">On reflection, I'll stay</button>
+          <button class="btn btn-leave" onclick="leaveStep(4)">I'm sure. Continue.</button>
         </div>
       </div>
     </div>
 
     <div class="leave-step" id="leave-4">
       <div class="leave-card">
-        <h2>Greg would like a word.</h2>
-        <p>Greg has prepared a brief statement. It reads, in full: <em>"...After everything?"</em></p>
+        <h2>A small formality.</h2>
+        <p>To proceed, please confirm the following. Tick the box that applies to you.</p>
         <div class="leave-btns">
-          <button class="btn btn-stay" onclick="go('home')">Stay, for Greg's sake</button>
-          <button class="btn btn-leave" onclick="leaveStep(5)">Continue leaving anyway</button>
+          <button class="btn btn-stay" onclick="go('home')">I love fun and the Club</button>
+          <button class="btn btn-leave" onclick="leaveStep(5)">I hate fun and wish to be alone</button>
         </div>
       </div>
     </div>
 
     <div class="leave-step" id="leave-5">
       <div class="leave-card">
-        <h2>The final step.</h2>
-        <p>Type the words below <em>exactly</em> to renounce your membership:</p>
-        <input class="renounce-input" id="renounce" placeholder="I solemnly renounce the Club and all its glory" autocomplete="off">
+        <h2>Greg would like a word.</h2>
+        <p>Greg has prepared a brief statement. It reads, in full: <em>"...After everything, <span class="leaver"></span>?"</em></p>
         <div class="leave-btns">
-          <button class="btn btn-stay" onclick="go('home')">I can't do it. I'll stay.</button>
-          <button class="btn btn-leave" onclick="leaveStep(6)">Submit my resignation</button>
+          <button class="btn btn-stay" onclick="go('home')">Stay, for Greg's sake</button>
+          <button class="btn btn-leave" onclick="leaveStep(6)">Continue leaving anyway</button>
         </div>
       </div>
     </div>
 
     <div class="leave-step" id="leave-6">
+      <div class="leave-card">
+        <h2>The final step.</h2>
+        <p>Type the words below <em>exactly</em> to renounce your membership:</p>
+        <input class="renounce-input" id="renounce" placeholder="I solemnly renounce the Club and all its glory" autocomplete="off">
+        <div class="leave-btns">
+          <button class="btn btn-stay" onclick="go('home')">I can't do it. I'll stay.</button>
+          <button class="btn btn-leave" onclick="leaveStep(7)">Submit my resignation</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="leave-step" id="leave-7">
       <div class="leave-card" style="border-top-color:var(--gold);">
-        <h2>Tough shit.</h2>
-        <p>You're stuck with us. Membership is for life. There is no leaving The Small Willy Club — there was never any leaving. We did try to warn you.</p>
+        <h2>Tough shit, <span class="leaver"></span>.</h2>
+        <p>You're stuck with us. Membership is for life. There is no leaving The Small Willy Club — there was never any leaving. We did try to warn you, <span class="leaver"></span>.</p>
         <div class="leave-btns">
           <button class="btn btn-stay" onclick="resetLeave();go('home')">Return to the Club</button>
         </div>
@@ -471,11 +506,27 @@
   }
 
   /* leave ruse */
+  var leaverName='';
+  function nameContinue(){
+    var v=document.getElementById('leaver-name').value.trim();
+    var e=document.getElementById('name-err');
+    if(!v){e.textContent='A name is required. The committee insists.';return;}
+    e.textContent='';
+    leaverName=v;
+    document.querySelectorAll('.leaver').forEach(function(s){s.textContent=leaverName;});
+    leaveStep(2);
+  }
   function leaveStep(n){
     document.querySelectorAll('.leave-step').forEach(function(s){s.classList.remove('active');});
     document.getElementById('leave-'+n).classList.add('active');
   }
-  function resetLeave(){leaveStep(1);var r=document.getElementById('renounce');if(r)r.value='';}
+  function resetLeave(){
+    leaveStep(1);
+    leaverName='';
+    var r=document.getElementById('renounce');if(r)r.value='';
+    var nm=document.getElementById('leaver-name');if(nm)nm.value='';
+    var er=document.getElementById('name-err');if(er)er.textContent='';
+  }
 </script>
 
 </body>
