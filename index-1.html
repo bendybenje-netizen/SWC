@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Small Willy Club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#163a2b;
+    --green-deep:#0f2a1f;
+    --cream:#f4ecd8;
+    --gold:#c6a44e;
+    --gold-soft:#d8be7e;
+    --oxblood:#6b2226;
+    --ink:#1b1d1a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);color:var(--ink);
+    font-family:'EB Garamond',Georgia,serif;font-size:18px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- PASSWORD GATE ---------- */
+  #gate{
+    position:fixed;inset:0;z-index:50;background:var(--green-deep);color:var(--cream);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:32px;transition:opacity .6s ease;
+  }
+  #gate.lifted{opacity:0;pointer-events:none;}
+  .gate-img{width:170px;height:170px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);margin-bottom:24px;box-shadow:0 0 0 6px rgba(198,164,78,.12);}
+  .gate-est{font-family:'Cormorant Garamond',serif;text-transform:uppercase;letter-spacing:.3em;font-size:11px;color:var(--gold);margin-bottom:4px;}
+  .gate-question{font-family:'EB Garamond',serif;font-style:italic;font-size:18px;color:var(--cream);max-width:300px;margin:16px auto 0;line-height:1.4;}
+  .gate-hint{font-size:13px;color:var(--gold-soft);margin-top:8px;letter-spacing:.05em;}
+  .gate-signup{margin-top:24px;font-size:15px;color:var(--gold-soft);}
+  .gate-signup a{color:var(--gold);text-decoration:underline;cursor:pointer;}
+  #signup-gate{position:fixed;inset:0;z-index:60;background:var(--green-deep);color:var(--cream);display:none;flex-direction:column;padding:48px 28px;overflow-y:auto;}
+  .signup-inner{max-width:520px;width:100%;margin:auto;text-align:center;}
+  .signup-inner h2{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(28px,7vw,40px);margin-bottom:6px;}
+  .signup-inner .eyebrow{margin-bottom:0;}
+  .signup-box{background:rgba(244,236,216,.05);border:1px solid var(--gold);border-radius:4px;padding:26px 22px;text-align:left;margin:24px 0;}
+  .signup-box p{font-size:17px;margin-bottom:16px;color:var(--cream);}
+  .signup-box p:last-child{margin-bottom:0;}
+  .signup-inner .gate-btn{max-width:240px;margin:0 auto;display:block;width:100%;}
+  .crest{
+    width:120px;height:120px;border-radius:50%;border:2px solid var(--gold);
+    display:flex;align-items:center;justify-content:center;margin-bottom:28px;
+    background:radial-gradient(circle at 50% 30%, rgba(198,164,78,.18), transparent 70%);
+  }
+  .crest span{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:42px;color:var(--gold);letter-spacing:2px;}
+  #gate h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(28px,7vw,40px);letter-spacing:1px;line-height:1.15;margin-bottom:8px;}
+  .eyebrow{font-family:'Cormorant Garamond',serif;text-transform:uppercase;letter-spacing:.35em;font-size:13px;color:var(--gold-soft);margin-bottom:24px;}
+  .gate-form{display:flex;flex-direction:column;gap:14px;width:100%;max-width:300px;margin-top:28px;}
+  #pw{padding:14px 16px;font-family:'EB Garamond',serif;font-size:17px;text-align:center;letter-spacing:3px;background:transparent;border:1px solid var(--gold-soft);color:var(--cream);border-radius:2px;outline:none;}
+  #pw:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(198,164,78,.25);}
+  #pw::placeholder{color:rgba(244,236,216,.4);letter-spacing:2px;}
+  .gate-btn{padding:14px;font-family:'Cormorant Garamond',serif;text-transform:uppercase;letter-spacing:.25em;font-size:14px;background:var(--gold);color:var(--green-deep);border:none;border-radius:2px;cursor:pointer;transition:background .2s;}
+  .gate-btn:hover{background:var(--gold-soft);}
+  #gate-err{min-height:20px;font-style:italic;color:var(--gold-soft);font-size:15px;}
+  .shake{animation:shake .4s;}
+  @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+
+  /* ---------- NAV + HAMBURGER ---------- */
+  header.nav{
+    position:sticky;top:0;z-index:30;background:var(--green);color:var(--cream);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 20px;border-bottom:1px solid var(--gold);
+  }
+  .nav-brand{font-family:'Cormorant Garamond',serif;font-size:20px;letter-spacing:2px;cursor:pointer;}
+  .burger{background:none;border:none;cursor:pointer;padding:6px;display:flex;flex-direction:column;gap:5px;}
+  .burger span{display:block;width:26px;height:2px;background:var(--gold);transition:.3s;}
+  .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .burger.open span:nth-child(2){opacity:0;}
+  .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+  .menu{
+    position:fixed;top:0;right:0;height:100%;width:min(300px,80vw);z-index:40;
+    background:var(--green-deep);border-left:1px solid var(--gold);
+    transform:translateX(100%);transition:transform .35s ease;
+    display:flex;flex-direction:column;padding:90px 0 30px;
+  }
+  .menu.open{transform:translateX(0);box-shadow:-20px 0 60px rgba(0,0,0,.4);}
+  .menu a{
+    color:var(--cream);text-decoration:none;font-family:'Cormorant Garamond',serif;
+    font-size:21px;letter-spacing:.08em;padding:16px 32px;border-bottom:1px solid rgba(198,164,78,.18);
+    transition:background .2s,color .2s;cursor:pointer;
+  }
+  .menu a:hover{background:rgba(198,164,78,.12);color:var(--gold-soft);}
+  .menu a.leave{color:var(--gold-soft);font-style:italic;margin-top:auto;border-bottom:none;border-top:1px solid rgba(198,164,78,.18);}
+  .scrim{position:fixed;inset:0;z-index:35;background:rgba(15,42,31,.55);opacity:0;pointer-events:none;transition:opacity .3s;}
+  .scrim.open{opacity:1;pointer-events:auto;}
+
+  /* ---------- PAGES ---------- */
+  .page{display:none;}
+  .page.active{display:block;animation:fade .4s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  /* ---------- HERO ---------- */
+  .hero{background:var(--green);color:var(--cream);text-align:center;padding:64px 24px 76px;border-bottom:4px double var(--gold);}
+  .hero .crest{margin:0 auto 26px;width:96px;height:96px;}
+  .hero .crest span{font-size:34px;}
+  .hero h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(40px,11vw,72px);line-height:1.02;letter-spacing:1px;}
+  .motto{font-style:italic;color:var(--gold-soft);font-size:clamp(17px,4vw,21px);margin-top:18px;}
+  .motto small{display:block;font-style:normal;letter-spacing:.3em;text-transform:uppercase;font-size:12px;opacity:.7;margin-top:6px;}
+  .est{margin-top:24px;font-family:'Cormorant Garamond',serif;letter-spacing:.4em;text-transform:uppercase;font-size:12px;color:var(--gold);}
+  .home-links{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:36px;}
+  .home-links button{
+    font-family:'Cormorant Garamond',serif;text-transform:uppercase;letter-spacing:.18em;font-size:13px;
+    background:transparent;color:var(--cream);border:1px solid var(--gold-soft);
+    padding:12px 20px;border-radius:2px;cursor:pointer;transition:.2s;
+  }
+  .home-links button:hover{background:var(--gold);color:var(--green-deep);border-color:var(--gold);}
+
+  /* ---------- SECTIONS ---------- */
+  section.body{padding:56px 24px;max-width:760px;margin:0 auto;}
+  .sec-label{font-family:'Cormorant Garamond',serif;text-transform:uppercase;letter-spacing:.35em;font-size:13px;color:var(--oxblood);text-align:center;margin-bottom:10px;}
+  .sec-title{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(30px,7vw,44px);text-align:center;line-height:1.1;margin-bottom:8px;}
+  .rule{width:60px;height:2px;background:var(--gold);margin:18px auto 32px;}
+  .prose p{margin-bottom:18px;font-size:19px;}
+  .club-portrait{width:100%;border-radius:3px;border:1px solid rgba(0,0,0,.12);margin:8px 0 28px;filter:sepia(.15);}
+
+  /* ---------- CHALLENGE ---------- */
+  .video-wrap{position:relative;width:100%;padding-top:56.25%;border-radius:4px;overflow:hidden;background:var(--green-deep);border:1px solid var(--gold);margin-bottom:14px;}
+  .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+  .video-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--gold-soft);text-align:center;padding:20px;}
+  .video-placeholder .big{font-family:'Cormorant Garamond',serif;font-size:24px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+  .caption{text-align:center;font-style:italic;color:#7a7264;font-size:15px;margin-bottom:36px;}
+  .challenge-img{width:100%;border-radius:4px;border:1px solid rgba(0,0,0,.12);margin-bottom:8px;}
+  .lobster-card{background:#fbf6e9;border:1px solid rgba(22,58,43,.18);border-left:4px solid var(--gold);border-radius:3px;padding:26px 24px;margin-top:30px;text-align:center;}
+  .lobster-card img{max-width:420px;width:100%;border-radius:3px;margin:0 auto 16px;display:block;}
+  .lobster-card h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:26px;margin-bottom:6px;}
+
+  /* ---------- AGM ---------- */
+  .bylaw{background:var(--green);color:var(--cream);border:1px solid var(--gold);border-radius:4px;padding:24px 22px;margin-bottom:30px;font-style:italic;}
+  .bylaw p{margin:0;font-size:18px;}
+  h3.sub{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:26px;color:var(--green);margin:34px 0 12px;border-bottom:1px solid var(--gold);padding-bottom:6px;}
+  .rota{width:100%;border-collapse:collapse;margin:6px 0 8px;}
+  .rota td{padding:11px 8px;border-bottom:1px solid rgba(22,58,43,.16);font-size:17px;}
+  .rota td.yr{font-family:'Cormorant Garamond',serif;font-weight:600;color:var(--oxblood);width:84px;}
+  .rota tr.current td{background:#fbf6e9;}
+  .notable{list-style:none;padding:0;margin:6px 0 8px;}
+  .notable li{padding:11px 0 11px 24px;border-bottom:1px solid rgba(22,58,43,.12);position:relative;font-size:17px;}
+  .notable li:before{content:'\276E';position:absolute;left:2px;color:var(--gold);}
+  .bylaw-heading{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:23px;color:var(--green);margin:32px 0 14px;border-bottom:1px solid var(--gold);padding-bottom:6px;}
+  .clause{display:flex;gap:12px;margin-bottom:14px;font-size:17px;line-height:1.55;}
+  .clause .num{flex:0 0 auto;font-family:'Cormorant Garamond',serif;font-weight:600;color:var(--oxblood);min-width:36px;}
+  .faq-q{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:21px;color:var(--green);margin:28px 0 6px;}
+  .faq-a{font-size:17px;margin-bottom:4px;}
+
+  /* ---------- MEMBERS ---------- */
+  .member{background:#fbf6e9;border:1px solid rgba(22,58,43,.18);border-left:4px solid var(--gold);border-radius:3px;padding:26px 24px;margin-bottom:22px;display:flex;gap:20px;align-items:flex-start;}
+  .badge{position:relative;overflow:hidden;flex:0 0 auto;width:84px;height:84px;border-radius:50%;background:var(--green);color:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;border:1px solid var(--gold);}
+  .badge img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .member-body{flex:1;}
+  .member h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:25px;line-height:1.1;}
+  .role{color:var(--oxblood);font-style:italic;font-size:16px;margin:2px 0 4px;}
+  .since{font-family:'Cormorant Garamond',serif;text-transform:uppercase;letter-spacing:.2em;font-size:11px;color:#7a7264;margin-bottom:12px;}
+  .quote{border-left:2px solid var(--gold-soft);padding-left:12px;font-style:italic;color:#4a463d;margin-bottom:12px;}
+  .member p.bio{font-size:17px;}
+
+  /* ---------- EVENTS ---------- */
+  .event{display:flex;gap:20px;align-items:flex-start;border-bottom:1px solid rgba(22,58,43,.16);padding:22px 4px;}
+  .event:last-child{border-bottom:none;}
+  .date-chip{flex:0 0 auto;width:72px;text-align:center;background:var(--green);color:var(--cream);border-radius:4px;padding:10px 6px;border:1px solid var(--gold);}
+  .date-chip .d{font-family:'Cormorant Garamond',serif;font-size:28px;line-height:1;color:var(--gold);}
+  .date-chip .m{text-transform:uppercase;letter-spacing:.18em;font-size:11px;margin-top:4px;}
+  .event-body h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:22px;line-height:1.15;}
+  .event-body .when{font-style:italic;color:var(--oxblood);font-size:15px;margin:2px 0 6px;}
+  .event-body p{font-size:16px;}
+
+  /* ---------- LEAVE ---------- */
+  .leave-stage{min-height:60vh;display:flex;align-items:center;justify-content:center;padding:48px 24px;}
+  .leave-card{max-width:520px;width:100%;text-align:center;background:#fbf6e9;border:1px solid rgba(22,58,43,.2);border-top:4px solid var(--oxblood);border-radius:4px;padding:40px 28px;}
+  .leave-card h2{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(26px,6vw,36px);line-height:1.1;margin-bottom:14px;}
+  .leave-card p{font-size:18px;margin-bottom:24px;color:#4a463d;}
+  .leave-btns{display:flex;flex-direction:column;gap:12px;align-items:center;}
+  .btn{font-family:'Cormorant Garamond',serif;text-transform:uppercase;letter-spacing:.16em;font-size:14px;padding:13px 22px;border-radius:2px;cursor:pointer;border:1px solid var(--green);transition:.2s;width:100%;max-width:320px;}
+  .btn-stay{background:var(--green);color:var(--cream);}
+  .btn-stay:hover{background:var(--green-deep);}
+  .btn-leave{background:transparent;color:var(--oxblood);border-color:var(--oxblood);}
+  .btn-leave:hover{background:var(--oxblood);color:var(--cream);}
+  .tiny{font-size:11px;letter-spacing:.1em;padding:7px 12px;opacity:.7;}
+  .leave-step{display:none;}
+  .leave-step.active{display:block;animation:fade .4s ease;}
+  .renounce-input{width:100%;max-width:360px;padding:12px;font-family:'EB Garamond',serif;font-size:15px;border:1px solid var(--green);border-radius:2px;text-align:center;margin-bottom:16px;}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--green-deep);color:var(--cream);text-align:center;padding:44px 24px;border-top:4px double var(--gold);}
+  footer .crest{margin:0 auto 16px;width:68px;height:68px;}
+  footer .crest span{font-size:24px;}
+  footer .motto{margin-top:0;}
+  .copyright{margin-top:22px;font-size:13px;letter-spacing:.2em;text-transform:uppercase;opacity:.55;}
+
+  @media(max-width:520px){
+    .member{flex-direction:column;gap:14px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== PASSWORD GATE ===== -->
+<div id="gate">
+  <img src="frontimage.png" alt="The Small Willy Club" class="gate-img" onerror="this.style.display='none'">
+  <p class="eyebrow">Members Only · Prove Yourself</p>
+  <h1>The Small Willy Club</h1>
+  <p class="gate-est">Established Summer 2003</p>
+  <p class="gate-question">In what town did Greg lose his front wheel?</p>
+  <p class="gate-hint">(lowercase, no spaces)</p>
+  <div class="gate-form">
+    <input id="pw" type="password" placeholder="Your answer" autocomplete="off" autofocus>
+    <button class="gate-btn" onclick="checkPassword()">Enter</button>
+    <p id="gate-err"></p>
+  </div>
+  <p class="gate-signup">Curious about membership? <a onclick="showSignup()">Sign up</a></p>
+</div>
+
+<!-- ===== SIGN UP (PRE-ENTRY) ===== -->
+<div id="signup-gate">
+  <div class="signup-inner">
+    <p class="eyebrow">Membership Enquiries</p>
+    <h2>Sign Up</h2>
+    <div class="signup-box">
+      <p>Thank you for your interest in The Small Willy Club.</p>
+      <p>Recruitment for new members is, regrettably, <strong>closed</strong>. Should it ever reopen, you would not know about it — you would simply, one day, be approached. There is no list. There is no form. There is no waiting.</p>
+      <p>Please also be aware that, in matters of recruitment, the Club does not recognise employment law, nor equality law, nor indeed any law whatsoever. Our selection process is arbitrary, opaque, and entirely beyond appeal.</p>
+      <p>And so, with the warmest possible regard, we would kindly ask you to fuck off.</p>
+    </div>
+    <button class="gate-btn" onclick="backToGate()">Back</button>
+  </div>
+</div>
+
+<!-- ===== NAV ===== -->
+<header class="nav">
+  <span class="nav-brand" onclick="go('home')">S · W · C</span>
+  <button class="burger" id="burger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="scrim" id="scrim" onclick="toggleMenu()"></div>
+<nav class="menu" id="menu">
+  <a onclick="go('home')">Home</a>
+  <a onclick="go('about')">About Us</a>
+  <a onclick="go('agm')">SWC AGM</a>
+  <a onclick="go('lobster')">The SWC Lobster</a>
+  <a onclick="go('events')">Events</a>
+  <a onclick="go('members')">The Membership</a>
+  <a onclick="go('bylaws')">The Bylaws</a>
+  <a onclick="go('faq')">FAQ</a>
+  <a class="leave" onclick="go('leave')">Leave the Club</a>
+</nav>
+
+<!-- ===== HOME ===== -->
+<div class="page active" id="home">
+  <div class="hero">
+    <div class="crest"><span>SWC</span></div>
+    <h1>The Small<br>Willy Club</h1>
+    <p class="motto">Parva sed Potens<small>Small but Mighty</small></p>
+    <p class="est">Established MMIII</p>
+    <div class="home-links">
+      <button onclick="go('about')">About Us</button>
+      <button onclick="go('agm')">SWC AGM</button>
+      <button onclick="go('lobster')">The Lobster</button>
+      <button onclick="go('events')">Events</button>
+      <button onclick="go('members')">Members</button>
+      <button onclick="go('bylaws')">Bylaws</button>
+      <button onclick="go('faq')">FAQ</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ABOUT ===== -->
+<div class="page" id="about">
+  <section class="body prose">
+    <p class="sec-label">Article I</p>
+    <h2 class="sec-title">About the Club</h2>
+    <div class="rule"></div>
+    <p>The Small Willy Club is, in the main, a product of chance rather than design. It was never founded so much as it simply occurred — a gathering of individuals drawn together over many years by shared experience, common humour, and a broadly aligned set of values.</p>
+    <p>No one entirely agrees when it began. The leading theory places its beginnings in the summer of 2003, though the precise origins are happily lost to record.</p>
+    <p>What started as an accident of circumstance has, in the years since, settled into something more deliberate: a standing fellowship of six, governed by its own bylaws and convened in formal session once a year. The name, we concede, is rather less dignified than the institution it represents.</p>
+  </section>
+</div>
+
+<!-- ===== CHALLENGE ===== -->
+<div class="page" id="agm">
+  <section class="body prose">
+    <p class="sec-label">Article IV</p>
+    <h2 class="sec-title">The SWC AGM</h2>
+    <div class="rule"></div>
+
+    <div class="bylaw">
+      <p>Let it be known, and forever recorded: the Annual General Meeting of The Small Willy Club is enshrined within the bylaws of the Club. No power, no authority, no force earthly or otherwise may override it, postpone it, or diminish it. It shall be convened each and every year without fail — and it must be protected, at all costs.</p>
+    </div>
+
+    <h3 class="sub">The Current Custodian</h3>
+    <p>As enshrined in the bylaws, the organisation of each AGM falls, in turn, to a single member — the Custodian — who assumes sole responsibility for the weekend that follows. For 2026, that honour belongs to <strong>Caleb</strong>, who has chosen Nottingham as the destination and now bears full responsibility for its triumph or its ruin.</p>
+    <img src="challengeimage.png" alt="The 2026 weekend" class="challenge-img" onerror="this.style.display='none'">
+
+    <h3 class="sub">The Order of Succession</h3>
+    <p>The custodianship began in 2024, conceived as a dignified replacement for stag duties — a supply that had, by then, all but run dry, every member being comfortably married. That supply has, against all expectation, recently shown signs of life: one member, having quietly divorced, now finds himself engaged once more, and a stag duty may yet return to the calendar. The custodianship passes from one member to the next, year upon year, as the bylaws demand:</p>
+    <table class="rota">
+      <tr><td class="yr">2024</td><td>Barney · Wales — the inaugural AGM</td></tr>
+      <tr><td class="yr">2025</td><td>Greg · Wales</td></tr>
+      <tr class="current"><td class="yr">2026</td><td>Caleb · Nottingham — <em>current custodian</em></td></tr>
+      <tr><td class="yr">2027</td><td>Laura or Jonny — to be decided</td></tr>
+      <tr><td class="yr">2028</td><td>Laura or Jonny — to be decided</td></tr>
+      <tr><td class="yr">2029</td><td>Ben</td></tr>
+      <tr><td class="yr">2030</td><td>Barney</td></tr>
+      <tr><td class="yr">2031</td><td>Greg</td></tr>
+    </table>
+
+    <h3 class="sub">Notable Mentions</h3>
+    <ul class="notable">
+      <li>The adoption and naming of SWC the Lobster.</li>
+      <li>The founding of this very website, raised in a single weekend.</li>
+      <li>Further honours to be recorded by the committee in due course.</li>
+    </ul>
+  </section>
+</div>
+
+<!-- ===== LOBSTER (OWN PAGE) ===== -->
+<div class="page" id="lobster">
+  <section class="body prose">
+    <p class="sec-label">The Mascot</p>
+    <h2 class="sec-title">The SWC Lobster</h2>
+    <div class="rule"></div>
+    <div class="lobster-card">
+      <img src="Lobster.jpg" alt="Certificate of adoption — SWC the Lobster" onerror="this.style.display='none'">
+      <h3>SWC the Lobster</h3>
+      <p class="role">Official Crustacean of The Small Willy Club</p>
+      <p>Adopted in June 2026, SWC the Lobster came into the Club's care as part of that year's AGM challenge, set by Caleb: to do something — anything — with £10. The Club's answer was to adopt a lobster, name it in its own honour, and enshrine it forever. The certificate of adoption is displayed above with all appropriate ceremony.</p>
+      <p>SWC the Lobster remains, at present, in captivity — awaiting release into the open sea off the coast of Cornwall. Upon its release, the date shall be recorded here for posterity, and the membership shall observe a respectful moment of reflection.</p>
+      <p class="role" style="margin-top:18px;">Adopted: June 2026 · Date of release: to be confirmed.</p>
+    </div>
+  </section>
+</div>
+
+<!-- ===== EVENTS ===== -->
+<div class="page" id="events">
+  <section class="body">
+    <p class="sec-label">The Calendar</p>
+    <h2 class="sec-title">Upcoming Events</h2>
+    <div class="rule"></div>
+
+    <div class="event">
+      <div class="date-chip"><div class="d">12</div><div class="m">Jun</div></div>
+      <div class="event-body">
+        <h3>The SWC Annual General Meeting</h3>
+        <p class="when">Friday 12th – Monday 15th June · Destination: Nottingham</p>
+      </div>
+    </div>
+
+    <div class="event">
+      <div class="date-chip"><div class="d">03</div><div class="m">Jul</div></div>
+      <div class="event-body">
+        <h3>Ben's 40th</h3>
+        <p class="when">Friday 3rd – Saturday 4th July 2026 · Destination: Hale Farm</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===== MEMBERS ===== -->
+<div class="page" id="members">
+  <section class="body">
+    <p class="sec-label">Article II</p>
+    <h2 class="sec-title">The Membership</h2>
+    <div class="rule"></div>
+
+    <div class="member">
+      <div class="badge"><img src="greg.jpg" alt="Greg" onerror="this.style.display='none'">G</div>
+      <div class="member-body">
+        <h3>Greg</h3>
+        <p class="role">Club Doctor (PhD, non-medical)</p>
+        <p class="quote">"It's terribly technical. You wouldn't understand."</p>
+        <p class="bio">A cornerstone of the Club. Greg is the only doctor in the SWC — a title he wears with quiet pride and absolutely no medical qualification whatsoever, having earned a PhD in something so overwhelmingly technical that no one is entirely sure what it actually is. He has since moved up north, far enough away that seeing him counts as an expedition — one we gladly make whenever we can, because we love him dearly.</p>
+      </div>
+    </div>
+
+    <div class="member">
+      <div class="badge"><img src="laura.jpg" alt="Laura" onerror="this.style.display='none'">L</div>
+      <div class="member-body">
+        <h3>Laura "Crusty"</h3>
+        <p class="role">Keeper of Good Cheer</p>
+        <p class="bio">The origin of "Crusty" is officially a mystery, right up until you learn her maiden name was Cristoff — Cristoff, Crusty, and history did the rest. A qualified midwife who has since swapped delivering babies for keeping slightly larger children alive in a school, Laura never strayed far from home, and never needed to. Blessed with a laugh so contagious it ought to be notifiable, she is, by unanimous and unspoken agreement, the best person in any room.</p>
+      </div>
+    </div>
+
+    <div class="member">
+      <div class="badge"><img src="barney.jpg" alt="Barney" onerror="this.style.display='none'">B</div>
+      <div class="member-body">
+        <h3>Barney</h3>
+        <p class="role">Minister for the Outdoors (and the Van)</p>
+        <p class="bio">Barney exists in a permanent state of 12% battery, tethered to the worst mobile phone known to science and rarely entirely certain which way is up. None of this matters, because Barney is the single finest human being to have a pint with — endlessly lovable, friends with everyone he's ever met, and happiest behind the wheel of his beloved VW van pointed firmly at Cornwall. By day, an outdoor educator teaching children to love the wild. Genuinely — what a man.</p>
+      </div>
+    </div>
+
+    <div class="member">
+      <div class="badge"><img src="caleb.jpg" alt="Caleb" onerror="this.style.display='none'">C</div>
+      <div class="member-body">
+        <h3>Caleb</h3>
+        <p class="role">Architect of the AGM</p>
+        <p class="bio">Easy-going and outgoing to a fault, Caleb is a carpenter by trade. He loves a bike ride, a surf, and a good gig — and, above all, he is always there. He is also the Club's most reliable presence on WhatsApp, which counts for a great deal around here. Most importantly, Caleb is the man who first dreamed up the SWC AGM — a contribution of such quiet genius that history will remember him kindly, and so should we.</p>
+      </div>
+    </div>
+
+    <div class="member">
+      <div class="badge"><img src="jonny.jpg" alt="Jonny" onerror="this.style.display='none'">J</div>
+      <div class="member-body">
+        <h3>Jonny</h3>
+        <p class="role">Head of Admin</p>
+        <p class="quote">"It's regulation size."</p>
+        <p class="bio">Jonny has lived more lives than most. It has long been whispered — never confirmed — that you could spell "fudge" using only his GCSE grades, and yet the man went on to serve in the army, travel the world, and excel at very nearly everything. He skydives, has recently taken up paragliding, runs a tight administrative ship, and will happily see off a rum and Coke (or a vodka — the records are unclear). Scientifically, and we cannot stress this enough, he has a remarkably small head.</p>
+      </div>
+    </div>
+
+    <div class="member">
+      <div class="badge"><img src="ben.jpg" alt="Ben" onerror="this.style.display='none'">B</div>
+      <div class="member-body">
+        <h3>Ben</h3>
+        <p class="role">NHS Lifer (WhatsApp: improving)</p>
+        <p class="bio">These were Ben's first real friends, and he's stuck with them now — largely because, against all odds, they stuck with him. He works for the NHS, for reasons he has never fully established, but appears to enjoy it. There isn't a great deal more to say, chiefly because writing about yourself is excruciating. He is, by his own admission, pretty dreadful on the WhatsApp group — but he's trying to be better, and that has to count for something.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===== BYLAWS ===== -->
+<div class="page" id="bylaws">
+  <section class="body prose">
+    <p class="sec-label">The Constitution</p>
+    <h2 class="sec-title">The Bylaws</h2>
+    <div class="rule"></div>
+    <p style="text-align:center;font-style:italic;color:#7a7264;margin-bottom:8px;">As ratified by the Membership and held binding upon all persons herein, in perpetuity.</p>
+
+    <h3 class="bylaw-heading">Bylaw I — Of Membership and Its Limits</h3>
+    <div class="clause"><span class="num">1.1</span><span>The Membership of The Small Willy Club (hereinafter "the Club") shall consist of no more and no fewer than six (6) persons. This number is fixed, sacred, and not subject to the whims, moods, or passing enthusiasms of any individual member.</span></div>
+    <div class="clause"><span class="num">1.2</span><span>The number prescribed in 1.1 may be altered only by unanimous agreement of all persons physically present at a duly convened Annual General Meeting (hereinafter "the AGM"). Agreement reached by text message, telephone, hearsay, or whilst intoxicated outside of an AGM shall be deemed null, void, and inadmissible.</span></div>
+    <div class="clause"><span class="num">1.3</span><span>No candidate for membership may be considered, discussed, or so much as whispered about unless their name has been formally put forward not less than six (6) months prior to the AGM at which their candidacy is to be decided. This period shall be reserved for the proper and rigorous vetting of the candidate by the relevant members, the standards of which are deliberately left undefined.</span></div>
+    <div class="clause"><span class="num">1.4</span><span>For the avoidance of doubt, the Club is full.</span></div>
+
+    <h3 class="bylaw-heading">Bylaw II — Of the Annual General Meeting</h3>
+    <div class="clause"><span class="num">2.1</span><span>An AGM shall be convened once per calendar year, without exception and without regard to weather, employment, geography, or marriage.</span></div>
+    <div class="clause"><span class="num">2.2</span><span>All members shall attend. No excuses shall be entertained, including but not limited to work, illness, distance, offspring, or genuine emergency.</span></div>
+    <div class="clause"><span class="num">2.3</span><span>Any member failing to be present for a minimum of one (1) continuous hour of the AGM in a given year may, in principle, be expelled from the Club.</span></div>
+    <div class="clause"><span class="num">2.4</span><span>Notwithstanding 2.3, such expulsion shall in practice never occur, by operation of the following mechanism: expulsion requires a unanimous resolution of all six members; Bylaw 1.1 forbids the Membership from falling below six; the expulsion of a member would therefore reduce the Membership to five, breaching 1.1, which would in turn invalidate the very resolution that caused it, thereby reinstating the member, who would then once more become liable to expulsion, and so on, in perpetuity. The Committee has reviewed this loop and resolved, unanimously, to leave it exactly as it is.</span></div>
+
+    <h3 class="bylaw-heading">Bylaw III — Of the Waffle</h3>
+    <div class="clause"><span class="num">3.1</span><span>Each member shall deliver unto the group a "Waffle": being a video message, transmitted by WhatsApp, concerning the member's life, thoughts, or general goings-on.</span></div>
+    <div class="clause"><span class="num">3.2</span><span>A Waffle shall be delivered no less than once per week. Notwithstanding, a member may elect to Waffle once per month, or as and when the mood should take them — provided always that a Waffle is, at some point, and in good faith, actually done.</span></div>
+    <div class="clause"><span class="num">3.3</span><span>No Waffle shall exceed five (5) minutes in duration. Any Waffle found to exceed this limit shall be reclassified as a Ramble, which is a separate and lesser form, and shall be held against the member socially.</span></div>
+    <div class="clause"><span class="num">3.4</span><span>A Waffle shall be easy to understand. Mumbling, excessive background noise, and the delivery of a Waffle whilst driving are strongly discouraged, though not, at this stage, criminalised.</span></div>
+
+    <h3 class="bylaw-heading">Bylaw IV — Of the Custodianship of the AGM</h3>
+    <div class="clause"><span class="num">4.1</span><span>The organisation of each AGM shall pass, in turn, to a single member (the "Custodian"), in accordance with the Order of Succession.</span></div>
+    <div class="clause"><span class="num">4.2</span><span>The Custodian shall bear sole responsibility for the destination, the itinerary, and the general triumph or catastrophe of the weekend.</span></div>
+    <div class="clause"><span class="num">4.3</span><span>The Order of Succession, once fixed, may not be skipped, swapped, or wriggled out of, save by unanimous resolution at an AGM (see Bylaw 1.2, of which the Membership is by now thoroughly weary).</span></div>
+
+    <h3 class="bylaw-heading">Bylaw V — Of Communications</h3>
+    <div class="clause"><span class="num">5.1</span><span>Each member shall maintain a functioning mobile telephone, charged to a degree sufficient to participate in the affairs of the Club.</span></div>
+    <div class="clause"><span class="num">5.2</span><span>Persistent unavailability owing to a flat battery shall be noted in the minutes, sighed about at length, and ultimately forgiven.</span></div>
+
+    <h3 class="bylaw-heading">Bylaw VI — Of Amendments</h3>
+    <div class="clause"><span class="num">6.1</span><span>These Bylaws may be amended only at an AGM, by unanimous agreement, and in writing.</span></div>
+    <div class="clause"><span class="num">6.2</span><span>In the event of any conflict between these Bylaws and common sense, these Bylaws shall prevail.</span></div>
+  </section>
+</div>
+
+<!-- ===== FAQ ===== -->
+<div class="page" id="faq">
+  <section class="body prose">
+    <p class="sec-label">For the Membership</p>
+    <h2 class="sec-title">Frequently Asked Questions</h2>
+    <div class="rule"></div>
+
+    <p class="faq-q">How often must I Waffle?</p>
+    <p class="faq-a">As per the bylaws, as often as once a week — or as little as once a month, once every two months, once every three months, and so on, in the proud tradition of good intentions. It must, however, be done. Eventually.</p>
+
+    <p class="faq-q">My phone is hopeless. Is that a problem?</p>
+    <p class="faq-a">Not in the slightest. Bylaw V — concerning the upkeep of a charged and functioning telephone — exists solely on account of one particular member, whose unreliability in this regard is the stuff of legend. You are in distinguished company. Flat batteries will be noted in the minutes and sighed about.</p>
+
+    <p class="faq-q">Can I bring a guest to the AGM?</p>
+    <p class="faq-a">The AGM is strictly for members. Spouses, fiancé(e)s, and children are warmly regarded and firmly excluded. Should a child nonetheless be brought to an AGM, any member present reserves the full and unconditional right to swear at it in an unreasonable manner.</p>
+
+    <p class="faq-q">How do I raise a complaint?</p>
+    <p class="faq-a">Complaints may be submitted in the form of a Waffle, where they will be received, acknowledged in full, and quietly ignored.</p>
+
+    <p class="faq-q">Can I leave the Club?</p>
+    <p class="faq-a">Of course. You are entirely free to go. Simply select "Leave the Club" from the menu, and follow the instructions.</p>
+  </section>
+</div>
+
+<!-- ===== LEAVE (THE RUSE) ===== -->
+<div class="page" id="leave">
+  <div class="leave-stage">
+
+    <div class="leave-step active" id="leave-1">
+      <div class="leave-card">
+        <h2>Leaving so soon?</h2>
+        <p>Before we process your departure, the committee requires a name for the record. Who, exactly, wishes to leave?</p>
+        <input class="renounce-input" id="leaver-name" placeholder="Your full name" autocomplete="off">
+        <div class="leave-btns">
+          <button class="btn btn-stay" onclick="go('home')">Actually, I'll stay</button>
+          <button class="btn btn-leave" onclick="nameContinue()">Continue</button>
+        </div>
+        <p id="name-err" style="color:var(--oxblood);font-style:italic;font-size:14px;min-height:18px;margin:10px 0 0;"></p>
+      </div>
+    </div>
+
+    <div class="leave-step" id="leave-2">
+      <div class="leave-card">
+        <h2>Are you sure, <span class="leaver"></span>?</h2>
+        <p>Are you sure you wish to resign your membership of The Small Willy Club?</p>
+        <div class="leave-btns">
+          <button class="btn btn-stay" onclick="go('home')">No — I'll stay</button>
+          <button class="btn btn-leave" onclick="leaveStep(3)">Yes, I wish to leave</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="leave-step" id="leave-3">
+      <div class="leave-card">
+        <h2>Are you <em>quite</em> sure?</h2>
+        <p>This is a serious decision and the committee takes it personally. Take a breath. Reconsider.</p>
+        <div class="leave-btns">
+          <button class="btn btn-stay" onclick="go('home')">On reflection, I'll stay</button>
+          <button class="btn btn-leave" onclick="leaveStep(4)">I'm sure. Continue.</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="leave-step" id="leave-4">
+      <div class="leave-card">
+        <h2>A small formality.</h2>
+        <p>To proceed, please confirm the following. Tick the box that applies to you.</p>
+        <div class="leave-btns">
+          <button class="btn btn-stay" onclick="go('home')">I love fun and the Club</button>
+          <button class="btn btn-leave" onclick="leaveStep(5)">I hate fun and wish to be alone</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="leave-step" id="leave-5">
+      <div class="leave-card">
+        <h2>Greg would like a word.</h2>
+        <p>Greg has prepared a brief statement. It reads, in full: <em>"...After everything, <span class="leaver"></span>?"</em></p>
+        <div class="leave-btns">
+          <button class="btn btn-stay" onclick="go('home')">Stay, for Greg's sake</button>
+          <button class="btn btn-leave" onclick="leaveStep(6)">Continue leaving anyway</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="leave-step" id="leave-6">
+      <div class="leave-card">
+        <h2>The final step.</h2>
+        <p>To confirm your departure, type the following, <em>exactly</em>:</p>
+        <input class="renounce-input" id="renounce" placeholder="I'm an idiot" autocomplete="off">
+        <div class="leave-btns">
+          <button class="btn btn-stay" onclick="go('home')">I can't do it. I'll stay.</button>
+          <button class="btn btn-leave" onclick="leaveStep(7)">Submit my resignation</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="leave-step" id="leave-7">
+      <div class="leave-card" style="border-top-color:var(--gold);">
+        <h2>Tough shit, <span class="leaver"></span>.</h2>
+        <p>You're stuck with us. Membership is for life. There is no leaving The Small Willy Club — there was never any leaving. We did try to warn you, <span class="leaver"></span>.</p>
+        <div class="leave-btns">
+          <button class="btn btn-stay" onclick="resetLeave();go('home')">Return to the Club</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="crest"><span>SWC</span></div>
+  <p class="motto">Parva sed Potens</p>
+  <p class="copyright">The Small Willy Club · Est. MMIII · All Rights Reserved</p>
+</footer>
+
+<script>
+  /* password gate */
+  function checkPassword(){
+    var raw=document.getElementById('pw').value.toLowerCase().replace(/\s+/g,'');
+    var err=document.getElementById('gate-err');
+    if(raw==='lesgets'){
+      var g=document.getElementById('gate');
+      g.classList.add('lifted');
+      setTimeout(function(){g.style.display='none';},600);
+    }else{
+      err.textContent='Wrong answer. Please try again.';
+      var box=document.querySelector('.gate-form');
+      box.classList.remove('shake');void box.offsetWidth;box.classList.add('shake');
+    }
+  }
+  document.getElementById('pw').addEventListener('keydown',function(e){if(e.key==='Enter')checkPassword();});
+
+  /* sign up (pre-entry, cannot reach main site) */
+  function showSignup(){
+    document.getElementById('gate').style.display='none';
+    document.getElementById('signup-gate').style.display='flex';
+  }
+  function backToGate(){
+    document.getElementById('signup-gate').style.display='none';
+    document.getElementById('gate').style.display='flex';
+  }
+
+  /* menu */
+  function toggleMenu(){
+    document.getElementById('menu').classList.toggle('open');
+    document.getElementById('scrim').classList.toggle('open');
+    document.getElementById('burger').classList.toggle('open');
+  }
+  function closeMenu(){
+    document.getElementById('menu').classList.remove('open');
+    document.getElementById('scrim').classList.remove('open');
+    document.getElementById('burger').classList.remove('open');
+  }
+
+  /* page switching */
+  function go(id){
+    document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+    document.getElementById(id).classList.add('active');
+    if(id==='leave') resetLeave();
+    closeMenu();
+    window.scrollTo({top:0,behavior:'instant'});
+  }
+
+  /* leave ruse */
+  var leaverName='';
+  function nameContinue(){
+    var v=document.getElementById('leaver-name').value.trim();
+    var e=document.getElementById('name-err');
+    if(!v){e.textContent='A name is required. The committee insists.';return;}
+    e.textContent='';
+    leaverName=v;
+    document.querySelectorAll('.leaver').forEach(function(s){s.textContent=leaverName;});
+    leaveStep(2);
+  }
+  function leaveStep(n){
+    document.querySelectorAll('.leave-step').forEach(function(s){s.classList.remove('active');});
+    document.getElementById('leave-'+n).classList.add('active');
+  }
+  function resetLeave(){
+    leaveStep(1);
+    leaverName='';
+    var r=document.getElementById('renounce');if(r)r.value='';
+    var nm=document.getElementById('leaver-name');if(nm)nm.value='';
+    var er=document.getElementById('name-err');if(er)er.textContent='';
+  }
+</script>
+
+</body>
+</html>
