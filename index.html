@@ -34,6 +34,17 @@
   #gate.lifted{opacity:0;pointer-events:none;}
   .gate-img{width:170px;height:170px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);margin-bottom:24px;box-shadow:0 0 0 6px rgba(198,164,78,.12);}
   .gate-est{font-family:'Cormorant Garamond',serif;text-transform:uppercase;letter-spacing:.3em;font-size:11px;color:var(--gold);margin-bottom:4px;}
+  .gate-question{font-family:'EB Garamond',serif;font-style:italic;font-size:18px;color:var(--cream);max-width:300px;margin:16px auto 0;line-height:1.4;}
+  .gate-signup{margin-top:24px;font-size:15px;color:var(--gold-soft);}
+  .gate-signup a{color:var(--gold);text-decoration:underline;cursor:pointer;}
+  #signup-gate{position:fixed;inset:0;z-index:60;background:var(--green-deep);color:var(--cream);display:none;flex-direction:column;padding:48px 28px;overflow-y:auto;}
+  .signup-inner{max-width:520px;width:100%;margin:auto;text-align:center;}
+  .signup-inner h2{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(28px,7vw,40px);margin-bottom:6px;}
+  .signup-inner .eyebrow{margin-bottom:0;}
+  .signup-box{background:rgba(244,236,216,.05);border:1px solid var(--gold);border-radius:4px;padding:26px 22px;text-align:left;margin:24px 0;}
+  .signup-box p{font-size:17px;margin-bottom:16px;color:var(--cream);}
+  .signup-box p:last-child{margin-bottom:0;}
+  .signup-inner .gate-btn{max-width:240px;margin:0 auto;display:block;width:100%;}
   .crest{
     width:120px;height:120px;border-radius:50%;border:2px solid var(--gold);
     display:flex;align-items:center;justify-content:center;margin-bottom:28px;
@@ -122,6 +133,18 @@
   .lobster-card img{max-width:420px;width:100%;border-radius:3px;margin:0 auto 16px;display:block;}
   .lobster-card h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:26px;margin-bottom:6px;}
 
+  /* ---------- AGM ---------- */
+  .bylaw{background:var(--green);color:var(--cream);border:1px solid var(--gold);border-radius:4px;padding:24px 22px;margin-bottom:30px;font-style:italic;}
+  .bylaw p{margin:0;font-size:18px;}
+  h3.sub{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:26px;color:var(--green);margin:34px 0 12px;border-bottom:1px solid var(--gold);padding-bottom:6px;}
+  .rota{width:100%;border-collapse:collapse;margin:6px 0 8px;}
+  .rota td{padding:11px 8px;border-bottom:1px solid rgba(22,58,43,.16);font-size:17px;}
+  .rota td.yr{font-family:'Cormorant Garamond',serif;font-weight:600;color:var(--oxblood);width:84px;}
+  .rota tr.current td{background:#fbf6e9;}
+  .notable{list-style:none;padding:0;margin:6px 0 8px;}
+  .notable li{padding:11px 0 11px 24px;border-bottom:1px solid rgba(22,58,43,.12);position:relative;font-size:17px;}
+  .notable li:before{content:'\276E';position:absolute;left:2px;color:var(--gold);}
+
   /* ---------- MEMBERS ---------- */
   .member{background:#fbf6e9;border:1px solid rgba(22,58,43,.18);border-left:4px solid var(--gold);border-radius:3px;padding:26px 24px;margin-bottom:22px;display:flex;gap:20px;align-items:flex-start;}
   .badge{flex:0 0 auto;width:60px;height:60px;border-radius:50%;background:var(--green);color:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;border:1px solid var(--gold);}
@@ -175,13 +198,30 @@
 <!-- ===== PASSWORD GATE ===== -->
 <div id="gate">
   <img src="frontimage.png" alt="The Small Willy Club" class="gate-img" onerror="this.style.display='none'">
-  <p class="eyebrow">Strictly Members Only</p>
+  <p class="eyebrow">Members Only · Prove Yourself</p>
   <h1>The Small Willy Club</h1>
   <p class="gate-est">Established Summer 2003 · Tenterden</p>
+  <p class="gate-question">In what town did Greg lose his front wheel?</p>
   <div class="gate-form">
-    <input id="pw" type="password" placeholder="Password" autocomplete="off" autofocus>
-    <button class="gate-btn" onclick="checkPassword()">Request Entry</button>
+    <input id="pw" type="password" placeholder="Your answer" autocomplete="off" autofocus>
+    <button class="gate-btn" onclick="checkPassword()">Enter</button>
     <p id="gate-err"></p>
+  </div>
+  <p class="gate-signup">Curious about membership? <a onclick="showSignup()">Sign up</a></p>
+</div>
+
+<!-- ===== SIGN UP (PRE-ENTRY) ===== -->
+<div id="signup-gate">
+  <div class="signup-inner">
+    <p class="eyebrow">Membership Enquiries</p>
+    <h2>Sign Up</h2>
+    <div class="signup-box">
+      <p>Thank you for your interest in The Small Willy Club.</p>
+      <p>Recruitment for new members is, regrettably, <strong>closed</strong>. Should it ever reopen, you would not know about it — you would simply, one day, be approached. There is no list. There is no form. There is no waiting.</p>
+      <p>Please also be aware that, in matters of recruitment, the Club does not recognise employment law, nor equality law, nor indeed any law whatsoever. Our selection process is arbitrary, opaque, and entirely beyond appeal.</p>
+      <p>And so, with the warmest possible regard, we would kindly ask you to fuck off.</p>
+    </div>
+    <button class="gate-btn" onclick="backToGate()">Back</button>
   </div>
 </div>
 
@@ -197,7 +237,7 @@
 <nav class="menu" id="menu">
   <a onclick="go('home')">Home</a>
   <a onclick="go('about')">About Us</a>
-  <a onclick="go('challenge')">SWC Video</a>
+  <a onclick="go('agm')">SWC AGM</a>
   <a onclick="go('lobster')">The SWC Lobster</a>
   <a onclick="go('events')">Events</a>
   <a onclick="go('members')">The Membership</a>
@@ -213,7 +253,7 @@
     <p class="est">Established MMIII · Tenterden, England</p>
     <div class="home-links">
       <button onclick="go('about')">About Us</button>
-      <button onclick="go('challenge')">SWC Video</button>
+      <button onclick="go('agm')">SWC AGM</button>
       <button onclick="go('lobster')">The Lobster</button>
       <button onclick="go('events')">Events</button>
       <button onclick="go('members')">Members</button>
@@ -227,31 +267,45 @@
     <p class="sec-label">Article I</p>
     <h2 class="sec-title">About the Club</h2>
     <div class="rule"></div>
-    <p>The Small Willy Club is the nation's most exclusive fellowship for gentlemen — and one extraordinary woman — who understand that greatness is not a matter of measurement. Its precise date of establishment is a matter on which no consensus has ever been reached. The Club's foremost philosophers have, after long and sober deliberation, theorised that the summer of 2003, in Tenterden, represents its most likely inception — though the debate remains, in the finest tradition, gloriously unresolved.</p>
-    <p>Membership is by invitation only. Entry is contingent upon the recommendation of two existing members, a successful interview, and a frankly admirable lack of insecurity. We meet monthly. We speak of important things. We do not discuss the things you think we discuss.</p>
-    <p>Our motto, <em>Parva sed Potens</em>, has guided the Club since its founding in 2003. It reminds us of an eternal truth, recognised by philosophers, poets, and the more thoughtful sort of partner: that it is not the size of the thing, but the conviction with which it is carried.</p>
+    <p>The Small Willy Club is, at its heart, a group of friends — and one very lucky accident of fate. By some funny turn of luck, this particular collection of people found one another, and have stuck together through more years than any of them care to count.</p>
+    <p>No one entirely agrees when it all began. The leading theory places the beginnings in a summer in Tenterden, back in 2003, though the truth is happily lost to time. What mattered was never the date, but that it happened at all.</p>
+    <p>What binds us is the sort of bond not often found — the kind where, whatever happens, someone will always be there. It is a rare and precious thing, to be protected, remembered, and embraced. The daft name is simply the flag we choose to fly it under.</p>
   </section>
 </div>
 
 <!-- ===== CHALLENGE ===== -->
-<div class="page" id="challenge">
+<div class="page" id="agm">
   <section class="body prose">
-    <p class="sec-label">The Record</p>
-    <h2 class="sec-title">SWC Video</h2>
+    <p class="sec-label">Article IV</p>
+    <h2 class="sec-title">The SWC AGM</h2>
     <div class="rule"></div>
 
-    <!-- ===== VIDEO: replace the placeholder div below with your YouTube embed ===== -->
-    <div class="video-wrap">
-      <!-- TO ADD YOUR VIDEO: delete this placeholder div and paste your YouTube <iframe> here -->
-      <div class="video-placeholder">
-        <span class="big">Footage Pending</span>
-        <span>The official Club video will be screened here.</span>
-      </div>
+    <div class="bylaw">
+      <p>Let it be known, and forever recorded: the Annual General Meeting of The Small Willy Club is enshrined within the bylaws of the Club. No power, no authority, no force earthly or otherwise may override it, postpone it, or diminish it. It shall be convened each and every year without fail — and it must be protected, at all costs.</p>
     </div>
-    <p class="caption">As witnessed, and entered into the permanent record of the Club.</p>
 
-    <img src="challengeimage.png" alt="Club evidence" class="challenge-img" onerror="this.style.display='none'">
-    <p class="caption">Documented evidence, submitted for the record.</p>
+    <h3 class="sub">The 2026 Weekend — Nottingham</h3>
+    <p>The organisation of the AGM passes each year to a single custodian, who bears the honour and the burden alone. For 2026, the duty fell to <strong>Caleb</strong>, who set the membership one deceptively simple challenge: <em>"What can you do with £10?"</em></p>
+    <p>In answer, Ben set about discovering precisely how much could be achieved with a single ten-pound note. The results are recorded among the Club's notable mentions, below.</p>
+    <img src="challengeimage.png" alt="The 2026 weekend" class="challenge-img" onerror="this.style.display='none'">
+
+    <h3 class="sub">The Order of Succession</h3>
+    <p>As the bylaws demand, the custodianship of the AGM is appointed years in advance:</p>
+    <table class="rota">
+      <tr class="current"><td class="yr">2026</td><td>Caleb — <em>current custodian</em></td></tr>
+      <tr><td class="yr">2027</td><td>Laura or Jonny — to be decided</td></tr>
+      <tr><td class="yr">2028</td><td>Laura or Jonny — to be decided</td></tr>
+      <tr><td class="yr">2029</td><td>Ben</td></tr>
+      <tr><td class="yr">2030</td><td>Barney</td></tr>
+      <tr><td class="yr">2031</td><td>Greg</td></tr>
+    </table>
+
+    <h3 class="sub">Notable Mentions</h3>
+    <ul class="notable">
+      <li>The adoption and naming of SWC the Lobster.</li>
+      <li>The founding of this very website, raised in a single weekend.</li>
+      <li>Further honours to be recorded by the committee in due course.</li>
+    </ul>
   </section>
 </div>
 
@@ -262,12 +316,12 @@
     <h2 class="sec-title">The SWC Lobster</h2>
     <div class="rule"></div>
     <div class="lobster-card">
-      <img src="lobster.png" alt="Certificate of adoption — SWC the Lobster" onerror="this.style.display='none'">
+      <img src="Lobster.jpg" alt="Certificate of adoption — SWC the Lobster" onerror="this.style.display='none'">
       <h3>SWC the Lobster</h3>
       <p class="role">Official Crustacean of The Small Willy Club</p>
-      <p>In a moment of profound institutional commitment, the Club formally adopted a lobster and named it, in its own honour, SWC. The certificate of adoption is displayed above with all appropriate ceremony.</p>
+      <p>Adopted in June 2026, SWC the Lobster came into the Club's care as part of that year's AGM challenge, set by Caleb: to do something — anything — with £10. The Club's answer was to adopt a lobster, name it in its own honour, and enshrine it forever. The certificate of adoption is displayed above with all appropriate ceremony.</p>
       <p>SWC the Lobster remains, at present, in captivity — awaiting release into the open sea off the coast of Cornwall. Upon its release, the date shall be recorded here for posterity, and the membership shall observe a respectful moment of reflection.</p>
-      <p class="role" style="margin-top:18px;">Date of release: to be confirmed.</p>
+      <p class="role" style="margin-top:18px;">Adopted: June 2026 · Date of release: to be confirmed.</p>
     </div>
   </section>
 </div>
@@ -284,7 +338,6 @@
       <div class="event-body">
         <h3>The SWC Annual General Meeting</h3>
         <p class="when">Friday 12th – Monday 15th June · Destination: Nottingham</p>
-        <p>The Club decamps to Nottingham for its flagship gathering. Four days of fellowship, ceremony, and the renewal of all that binds us. Attendance is, naturally, for life.</p>
       </div>
     </div>
 
@@ -293,7 +346,6 @@
       <div class="event-body">
         <h3>Ben's 40th</h3>
         <p class="when">Saturday 4th July 2026 · Destination: Hale Farm</p>
-        <p>A milestone befitting a man of his standing. The Club assembles at Hale Farm to mark four decades in appropriately dignified style.</p>
       </div>
     </div>
   </section>
@@ -470,19 +522,29 @@
 <script>
   /* password gate */
   function checkPassword(){
-    var val=document.getElementById('pw').value.trim();
+    var raw=document.getElementById('pw').value.toLowerCase().replace(/\s+/g,'');
     var err=document.getElementById('gate-err');
-    if(val.toUpperCase()==='SWC'){
+    if(raw==='lesgets'){
       var g=document.getElementById('gate');
       g.classList.add('lifted');
       setTimeout(function(){g.style.display='none';},600);
     }else{
-      err.textContent='That is not the word. Try again.';
+      err.textContent='Wrong answer. Please try again.';
       var box=document.querySelector('.gate-form');
       box.classList.remove('shake');void box.offsetWidth;box.classList.add('shake');
     }
   }
   document.getElementById('pw').addEventListener('keydown',function(e){if(e.key==='Enter')checkPassword();});
+
+  /* sign up (pre-entry, cannot reach main site) */
+  function showSignup(){
+    document.getElementById('gate').style.display='none';
+    document.getElementById('signup-gate').style.display='flex';
+  }
+  function backToGate(){
+    document.getElementById('signup-gate').style.display='none';
+    document.getElementById('gate').style.display='flex';
+  }
 
   /* menu */
   function toggleMenu(){
